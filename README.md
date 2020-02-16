@@ -22,6 +22,7 @@ Install [Packer] and [VirtualBox].
 
 ## Launch VM
 ```vagrant plugin install vagrant-reload```
+
 ```vagrant up```
 
 ## Credentials
