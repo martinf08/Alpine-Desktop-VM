@@ -21,9 +21,10 @@ Install [Packer] and [VirtualBox].
 ```packer build mategui.json```
 
 ## Launch VM
+```vagrant plugin install vagrant-reload```
 ```vagrant up```
 
 ## Credentials
 - User : vagrant
 - Pass : vagrant
-- Keyboard : Qwerty
+- Keyboard : qwerty

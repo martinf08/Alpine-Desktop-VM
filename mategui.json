@@ -1,5 +1,5 @@
 {
-    "description": "Build Alpine vagrant Box ",
+    "description": "Build Alpine Desktop VM",
     "variables": {
         "vm_name": "Alpine",
         "cpus": "2",
