@@ -25,6 +25,8 @@ Install [Packer] and [VirtualBox].
 
 ```vagrant up```
 
+Select Mate desktop and type password
+
 ## Credentials
 - User : vagrant
 - Pass : vagrant

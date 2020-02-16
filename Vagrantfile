@@ -12,6 +12,7 @@ Vagrant.configure(2) do |config|
 
     config.vm.network "private_network", ip: "192.168.10.10"
     config.vm.synced_folder ".", "/vagrant", disabled: true
+    config.vm.synced_folder "data", "/data", type: "nfs"
 
     mategui.vm.provider 'virtualbox' do |vb|
       vb.gui = true
