@@ -25,9 +25,15 @@ Install [Packer] and [VirtualBox].
 
 ```vagrant up```
 
-Select Mate desktop and type password
+Select MATE desktop and type password
 
 ## Credentials
 - User : vagrant
 - Pass : vagrant
 - Keyboard : qwerty
+
+## Test Python Graph
+### Open terminal
+ Applications / System Tools / MATE Terminal
+### Launch python test script
+ ```/data/graph.py```

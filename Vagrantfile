@@ -26,4 +26,19 @@ Vagrant.configure(2) do |config|
       ]
     end
   end
+  config.vm.provision "shell",
+    inline: 'sudo apk add python3-dev py-pip'\
+            ' python3-tkinter g++'
+
+  config.vm.provision "shell",
+    inline: "sudo pip3 install --upgrade pip"
+
+  config.vm.provision "shell",
+    inline: "sudo pip3 install numpy"
+
+  config.vm.provision "shell",
+    inline: "sudo pip3 install pandas"
+
+  config.vm.provision "shell",
+    inline: "sudo pip3 install matplotlib"
 end
