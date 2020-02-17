@@ -7,9 +7,10 @@ Create a Alpine Linux Desktop VM with VirtualBox by using Packer.
 
 ## Usage
 
-Install [Packer] and [VirtualBox].
+Install [Packer], [Vagrant] and [VirtualBox].
 
 * https://www.packer.io/downloads.html
+* https://www.vagrantup.com/downloads.html
 * https://www.virtualbox.org/wiki/Downloads
 
 ### Versions
