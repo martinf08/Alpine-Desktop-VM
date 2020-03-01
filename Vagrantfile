@@ -34,6 +34,5 @@ Vagrant.configure(2) do |config|
     ansible.compatibility_mode = "2.0"
     ansible.playbook = "playbook.yaml"
     ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
-    # ansible.verbose = "-vvv"
   end
 end
