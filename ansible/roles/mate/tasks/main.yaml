@@ -39,7 +39,6 @@
 
 - name: Copy display configuration file into X11 folder
   shell: cp /root/xorg.conf.new /etc/X11/xorg.conf
-  become: yes
 
 - name: Remove old display configuration file
   file:
