@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  become: yes
+  vars:
+      default_user: "vagrant"
+
+  tasks:
+    - include_role:
+        name: mate
+
+    - name: Reboot
+      shell: reboot

@@ -1,0 +1,82 @@
+- name: Setup xorg base
+  script: /sbin/setup-xorg-base
+
+- name: Add repositories
+  lineinfile:
+    path: /etc/apk/repositories
+    line: "{{ item }}"
+  loop: "{{ repositories }}"
+
+- name: Upgrade OS
+  apk:
+    available: yes
+    upgrade: yes
+    update_cache: yes
+
+- name: Grep mate packages
+  shell: apk search mate -q | grep -v '\-dev' | grep -v '\-lang' | grep -v '\-doc'
+  register: grep_mate_packages
+
+- name: Install mate packages
+  apk:
+    name: "{{ item }}"
+    state: latest
+  loop:
+      - "{{ packages }}"
+      - "{{ grep_mate_packages.stdout_lines }}"
+
+- name: Configure autologin vagrant
+  lineinfile:
+      path: /etc/lxdm/lxdm.conf
+      regexp: "{{ item.search }}"
+      line: "{{ item.value }}"
+  loop:
+      - { search: "^# autologin=", value: "autologin={{ default_user }}" }
+      - { search: "^# session=", value: "session=/usr/bin/mate-session" }
+
+- name: Generate display configuration file
+  shell: X -configure
+
+- name: Copy display configuration file into X11 folder
+  shell: cp /root/xorg.conf.new /etc/X11/xorg.conf
+  become: yes
+
+- name: Remove old display configuration file
+  file:
+    path: /root/xorg.conf.new
+    state: absent
+
+- name: Calculate coordinated video timing
+  shell: cvt 1920 1080 60 | grep Modeline
+  register: coordinated_video_timing
+
+- name: Add calculate CVT into display configuration file
+  lineinfile:
+    path: /etc/X11/xorg.conf
+    insertafter: "Monitor Model"
+    line: "\t{{ coordinated_video_timing.stdout_lines[0] }}"
+    firstmatch: yes
+    state: present
+
+- name: Add default display in depth
+  lineinfile:
+    path: /etc/X11/xorg.conf
+    insertafter: "24$"
+    line: "\tModes \"1920x1080\""
+    firstmatch: yes
+    state: present
+
+- name: Add default depth
+  lineinfile:
+    path: /etc/X11/xorg.conf
+    insertbefore: 'SubSection "Display"'
+    line: "\tDefaultDepth 24"
+    firstmatch: yes
+    state: present
+
+- name: Enable services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+  loop: "{{ display_services }}"

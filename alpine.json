@@ -1,12 +1,12 @@
 {
-    "description": "Build Alpine Desktop VM",
+    "description": "Build Alpine Box",
     "variables": {
         "vm_name": "Alpine",
-        "cpus": "2",
-        "memory": "2048",
+        "cpus": "1",
+        "memory": "512",
         "disk_size": "10240",
-        "iso_download_url": "http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/x86_64/alpine-virt-3.11.2-x86_64.iso",
-        "iso_checksum": "24a6d98292f751abb4488d35031c0d83",
+        "iso_download_url": "http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/x86_64/alpine-virt-3.11.3-x86_64.iso",
+        "iso_checksum": "e87300b2286de36d373b7d222094862d",
         "iso_checksum_type": "md5",
         "root_password": "vagrant",
         "ssh_username": "vagrant",
@@ -20,7 +20,7 @@
             "guest_os_type": "Linux26_64",
             "guest_additions_mode": "disable",
             "disk_size": "{{user `disk_size`}}",
-            "iso_url": "http://dl-cdn.alpinelinux.org/alpine/v3.11/releases/x86_64/alpine-virt-3.11.2-x86_64.iso",
+            "iso_url": "{{user `iso_download_url`}}",
             "iso_checksum": "{{user `iso_checksum`}}",
             "iso_checksum_type": "{{user `iso_checksum_type`}}",
             "http_directory": "http",
@@ -29,7 +29,7 @@
             "ssh_password": "{{user `ssh_password`}}",
             "ssh_wait_timeout": "10m",
             "shutdown_command": "echo {{user `ssh_password`}} | sudo -S /sbin/poweroff",
-            "boot_wait": "20s",
+            "boot_wait": "10s",
             "boot_command": [
                 "root<enter><wait>",
                 "ifconfig eth0 up && udhcpc -i eth0<enter><wait10>",
@@ -38,9 +38,9 @@
                 "{{user `root_password`}}<enter><wait>",
                 "{{user `root_password`}}<enter><wait>",
                 "<wait10>y<enter>",
-                "<wait20>",
+                "<wait10><wait10>",
                 "reboot<enter>",
-                "<wait30>",
+                "<wait10><wait10><wait10>",
                 "root<enter><wait5>",
                 "{{user `root_password`}}<enter><wait5>",
                 "echo http://dl-cdn.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories<enter>",
@@ -50,19 +50,7 @@
                 "{{user `ssh_password`}}<enter><wait>",
                 "{{user `ssh_password`}}<enter><wait>",
                 "adduser {{user `ssh_username`}} wheel<enter><wait5>",
-                "apk add virtualbox-guest-additions virtualbox-guest-modules-virt<enter><wait10>",
-                "sudo setup-xorg-base<enter><wait20>",
-                "sudo apk add xf86-video-vesa xf86-input-mouse xf86-input-keyboard gtk-engines consolekit gtk-murrine-engine caja caja-extensions marco dbus dbus-x11 lxdm udev hicolor-icon-theme<enter><wait90>",
-                "mate_pkgs=$(apk search mate -q | grep -v '\\-dev' | grep -v '\\-lang' | grep -v '\\-doc')<enter><wait>",
-                "sudo apk add $mate_pkgs<enter><wait90>",
-                "sudo apk del mate-screensaver<enter><wait>",
-                "sudo sudo sudo ln -s /usr/etc/xdg/menus /etc/xdg/menus<enter><wait>",
-                "sudo apk add mate-screensaver<enter><wait>",
-                "ttfs=$(apk search -q ttf- | grep -v '\\-doc')<enter><wait>",
-                "sudo apk add $ttfs<enter><wait60>",
-                "sudo rc-update add lxdm<enter><wait>",
-                "sudo rc-update add dbus<enter><wait>",
-                "sudo rc-update add udev<enter><wait>"
+                "apk add virtualbox-guest-additions virtualbox-guest-modules-virt<enter><wait10>"
             ],
             "hard_drive_interface": "sata",
             "vboxmanage": [
@@ -75,7 +63,7 @@
     "post-processors": [
         {
             "type": "vagrant",
-            "output": "mategui.box"
+            "output": "alpine.box"
         }
     ]
 }
