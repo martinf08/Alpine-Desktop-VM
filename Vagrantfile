@@ -2,43 +2,38 @@ Vagrant.configure(2) do |config|
   config.ssh.shell = "/bin/ash"
   config.vbguest.auto_update = false
 
-  config.vm.define 'mategui' do |mategui|
+  config.vm.define 'alpine' do |alpine|
 
-    mategui.ssh.username = 'vagrant'
-    mategui.ssh.password = 'vagrant'
-    mategui.disksize.size = '10GB'
+    alpine.ssh.username = 'vagrant'
+    alpine.ssh.password = 'vagrant'
+    alpine.disksize.size = '10GB'
 
-    mategui.vm.box = './mategui.box'
+    alpine.vm.box = './alpine.box'
 
-    config.vm.network "private_network", ip: "192.168.10.10"
-    config.vm.synced_folder ".", "/vagrant", disabled: true
-    config.vm.synced_folder "data", "/data", type: "nfs"
+    config.vm.synced_folder '.', '/vagrant', disabled: true
+    config.vm.synced_folder "./ansible", "/vagrant", type: "nfs"
 
-    mategui.vm.provider 'virtualbox' do |vb|
+    config.vm.network "private_network", ip: "192.168.50.2"
+
+    alpine.vm.provider 'virtualbox' do |vb|
+      vb.name = 'alpine-mate'
+      vb.cpus = 1
+      vb.memory = 1024
       vb.gui = true
-      vb.name = 'mategui'
-      vb.cpus = 2
-      vb.memory = 2048
       vb.customize [
         'modifyvm', :id,
         '--natdnshostresolver1', 'on',
-        '--natdnsproxy1', 'on'
+        '--natdnsproxy1', 'on',
+        '--vram', '256'
       ]
     end
   end
-  config.vm.provision "shell",
-    inline: 'sudo apk add python3-dev py-pip'\
-            ' python3-tkinter g++'
+  config.vm.provision "shell", inline: "apk add ansible"
 
-  config.vm.provision "shell",
-    inline: "sudo pip3 install --upgrade pip"
-
-  config.vm.provision "shell",
-    inline: "sudo pip3 install numpy"
-
-  config.vm.provision "shell",
-    inline: "sudo pip3 install pandas"
-
-  config.vm.provision "shell",
-    inline: "sudo pip3 install matplotlib"
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.compatibility_mode = "2.0"
+    ansible.playbook = "playbook.yaml"
+    ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
+    # ansible.verbose = "-vvv"
+  end
 end

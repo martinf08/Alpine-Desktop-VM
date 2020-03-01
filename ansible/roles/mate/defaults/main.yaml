@@ -1,0 +1,24 @@
+repositories:
+  - 'http://dl-cdn.alpinelinux.org/alpine/edge/main'
+  - 'http://dl-cdn.alpinelinux.org/alpine/edge/testing'
+packages:
+  - xf86-video-vboxvideo
+  - xf86-input-mouse
+  - xf86-input-keyboard
+  - gtk-engines
+  - consolekit
+  - gtk-murrine-engine
+  - caja
+  - caja-extensions
+  - marco
+  - dbus
+  - dbus-x11
+  - lxdm
+  - udev
+  - hicolor-icon-theme
+  - ttf-dejavu
+
+display_services:
+  - dbus
+  - udev
+  - lxdm
