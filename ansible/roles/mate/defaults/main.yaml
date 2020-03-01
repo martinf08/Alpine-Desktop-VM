@@ -1,6 +1,7 @@
 repositories:
   - 'http://dl-cdn.alpinelinux.org/alpine/edge/main'
   - 'http://dl-cdn.alpinelinux.org/alpine/edge/testing'
+
 packages:
   - xf86-video-vboxvideo
   - xf86-input-mouse
