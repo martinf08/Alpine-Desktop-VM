@@ -8,7 +8,7 @@ Vagrant.configure(2) do |config|
     alpine.ssh.password = 'vagrant'
     alpine.disksize.size = '10GB'
 
-    alpine.vm.box = './alpine.box'
+    config.vm.box = "martinf08/alpine"
 
     config.vm.synced_folder '.', '/vagrant', disabled: true
     config.vm.synced_folder "./ansible", "/vagrant", type: "nfs"
